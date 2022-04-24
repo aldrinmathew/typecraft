@@ -1,0 +1,3 @@
+# typecraft
+
+Type faster...
