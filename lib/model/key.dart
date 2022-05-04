@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// KeyModel represents a single key present in the Virtual UI keyboard in the app
+///
+/// This class also handles the animation and statistics of the key
 class KeyModel {
   KeyModel({
     required this.character,
@@ -15,25 +18,44 @@ class KeyModel {
     if (keyActivator == null) {
       if (secondCharacter != null) {
         keyActivator = [];
-        keyActivator!.addAll([
-          CharacterActivator(character),
-          CharacterActivator(secondCharacter!)
-        ]);
+        keyActivator!.addAll([CharacterActivator(character), CharacterActivator(secondCharacter!)]);
       } else {
         keyActivator = [];
         keyActivator!.add(CharacterActivator(character));
       }
     }
   }
+
+  /// The primary character represented by this key
   String character;
+
+  /// The secondary character represented by this key. Usually this character
+  /// is obtained by pressing shift while pressing the corresponding physical
+  /// key
   String? secondCharacter;
+
+  /// This callback is in relation to the press animation of a key
   VoidCallback firstCallback = () {};
+
+  /// This callback is in relation to the release animation of a key
   VoidCallback secondCallback = () {};
+
+  /// Height of this key in the UI, if required to be constrained
   double? height;
+
+  /// Width of this key in the UI, if required to be constrained
   double? width;
+
+  /// The number of times the user has entered correct characters
   int correctCount;
+
+  /// The number of times the user has entered incorrect characters
   int mistakeCount;
+
+  /// The list of ShortcutActivator instances that this key should repsond to
   List<ShortcutActivator>? keyActivator;
+
+  /// Accuracy of the user for this key
   double get accuracy {
     if ((mistakeCount + correctCount) == 0) {
       return 0;
@@ -43,6 +65,7 @@ class KeyModel {
   }
 }
 
+/// All keys as supported in the virtual keyboard
 List<KeyModel> allKeys = [
   KeyModel(character: '`', secondCharacter: '~'),
   KeyModel(character: '1', secondCharacter: '!'),
@@ -69,73 +92,43 @@ List<KeyModel> allKeys = [
   ),
   KeyModel(
     character: 'Q',
-    keyActivator: [
-      const CharacterActivator('q'),
-      const CharacterActivator('Q')
-    ],
+    keyActivator: [const CharacterActivator('q'), const CharacterActivator('Q')],
   ),
   KeyModel(
     character: 'W',
-    keyActivator: [
-      const CharacterActivator('w'),
-      const CharacterActivator('W')
-    ],
+    keyActivator: [const CharacterActivator('w'), const CharacterActivator('W')],
   ),
   KeyModel(
     character: 'E',
-    keyActivator: [
-      const CharacterActivator('e'),
-      const CharacterActivator('E')
-    ],
+    keyActivator: [const CharacterActivator('e'), const CharacterActivator('E')],
   ),
   KeyModel(
     character: 'R',
-    keyActivator: [
-      const CharacterActivator('r'),
-      const CharacterActivator('R')
-    ],
+    keyActivator: [const CharacterActivator('r'), const CharacterActivator('R')],
   ),
   KeyModel(
     character: 'T',
-    keyActivator: [
-      const CharacterActivator('t'),
-      const CharacterActivator('T')
-    ],
+    keyActivator: [const CharacterActivator('t'), const CharacterActivator('T')],
   ),
   KeyModel(
     character: 'Y',
-    keyActivator: [
-      const CharacterActivator('y'),
-      const CharacterActivator('Y')
-    ],
+    keyActivator: [const CharacterActivator('y'), const CharacterActivator('Y')],
   ),
   KeyModel(
     character: 'U',
-    keyActivator: [
-      const CharacterActivator('u'),
-      const CharacterActivator('U')
-    ],
+    keyActivator: [const CharacterActivator('u'), const CharacterActivator('U')],
   ),
   KeyModel(
     character: 'I',
-    keyActivator: [
-      const CharacterActivator('i'),
-      const CharacterActivator('I')
-    ],
+    keyActivator: [const CharacterActivator('i'), const CharacterActivator('I')],
   ),
   KeyModel(
     character: 'O',
-    keyActivator: [
-      const CharacterActivator('o'),
-      const CharacterActivator('O')
-    ],
+    keyActivator: [const CharacterActivator('o'), const CharacterActivator('O')],
   ),
   KeyModel(
     character: 'P',
-    keyActivator: [
-      const CharacterActivator('p'),
-      const CharacterActivator('P')
-    ],
+    keyActivator: [const CharacterActivator('p'), const CharacterActivator('P')],
   ),
   KeyModel(character: '[', secondCharacter: '{'),
   KeyModel(character: ']', secondCharacter: '}'),
@@ -146,66 +139,39 @@ List<KeyModel> allKeys = [
   ),
   KeyModel(
     character: 'A',
-    keyActivator: [
-      const CharacterActivator('a'),
-      const CharacterActivator('A')
-    ],
+    keyActivator: [const CharacterActivator('a'), const CharacterActivator('A')],
   ),
   KeyModel(
     character: 'S',
-    keyActivator: [
-      const CharacterActivator('s'),
-      const CharacterActivator('S')
-    ],
+    keyActivator: [const CharacterActivator('s'), const CharacterActivator('S')],
   ),
   KeyModel(
     character: 'D',
-    keyActivator: [
-      const CharacterActivator('d'),
-      const CharacterActivator('D')
-    ],
+    keyActivator: [const CharacterActivator('d'), const CharacterActivator('D')],
   ),
   KeyModel(
     character: 'F',
-    keyActivator: [
-      const CharacterActivator('f'),
-      const CharacterActivator('F')
-    ],
+    keyActivator: [const CharacterActivator('f'), const CharacterActivator('F')],
   ),
   KeyModel(
     character: 'G',
-    keyActivator: [
-      const CharacterActivator('g'),
-      const CharacterActivator('G')
-    ],
+    keyActivator: [const CharacterActivator('g'), const CharacterActivator('G')],
   ),
   KeyModel(
     character: 'H',
-    keyActivator: [
-      const CharacterActivator('h'),
-      const CharacterActivator('H')
-    ],
+    keyActivator: [const CharacterActivator('h'), const CharacterActivator('H')],
   ),
   KeyModel(
     character: 'J',
-    keyActivator: [
-      const CharacterActivator('j'),
-      const CharacterActivator('J')
-    ],
+    keyActivator: [const CharacterActivator('j'), const CharacterActivator('J')],
   ),
   KeyModel(
     character: 'K',
-    keyActivator: [
-      const CharacterActivator('k'),
-      const CharacterActivator('K')
-    ],
+    keyActivator: [const CharacterActivator('k'), const CharacterActivator('K')],
   ),
   KeyModel(
     character: 'L',
-    keyActivator: [
-      const CharacterActivator('l'),
-      const CharacterActivator('L')
-    ],
+    keyActivator: [const CharacterActivator('l'), const CharacterActivator('L')],
   ),
   KeyModel(character: ';', secondCharacter: ':'),
   KeyModel(character: '\'', secondCharacter: '"'),
@@ -224,52 +190,31 @@ List<KeyModel> allKeys = [
   ),
   KeyModel(
     character: 'Z',
-    keyActivator: [
-      const CharacterActivator('z'),
-      const CharacterActivator('Z')
-    ],
+    keyActivator: [const CharacterActivator('z'), const CharacterActivator('Z')],
   ),
   KeyModel(
     character: 'X',
-    keyActivator: [
-      const CharacterActivator('x'),
-      const CharacterActivator('X')
-    ],
+    keyActivator: [const CharacterActivator('x'), const CharacterActivator('X')],
   ),
   KeyModel(
     character: 'C',
-    keyActivator: [
-      const CharacterActivator('c'),
-      const CharacterActivator('C')
-    ],
+    keyActivator: [const CharacterActivator('c'), const CharacterActivator('C')],
   ),
   KeyModel(
     character: 'V',
-    keyActivator: [
-      const CharacterActivator('v'),
-      const CharacterActivator('V')
-    ],
+    keyActivator: [const CharacterActivator('v'), const CharacterActivator('V')],
   ),
   KeyModel(
     character: 'B',
-    keyActivator: [
-      const CharacterActivator('b'),
-      const CharacterActivator('B')
-    ],
+    keyActivator: [const CharacterActivator('b'), const CharacterActivator('B')],
   ),
   KeyModel(
     character: 'N',
-    keyActivator: [
-      const CharacterActivator('n'),
-      const CharacterActivator('N')
-    ],
+    keyActivator: [const CharacterActivator('n'), const CharacterActivator('N')],
   ),
   KeyModel(
     character: 'M',
-    keyActivator: [
-      const CharacterActivator('m'),
-      const CharacterActivator('M')
-    ],
+    keyActivator: [const CharacterActivator('m'), const CharacterActivator('M')],
   ),
   KeyModel(character: ',', secondCharacter: '<'),
   KeyModel(character: '.', secondCharacter: '>'),

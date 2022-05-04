@@ -1,3 +1,10 @@
+/// These are keys of characters that are case sensitive, but are not handled
+/// by flutter
+///
+/// Basically pressing shift enables the user to enter the alternative character
+/// of a physical key. For other keys, Flutter automatically detects those as
+/// separate keys, but for the following characters, it has to be handled
+/// manually
 Map<String, Map<bool, String>> keyCharacterMap = {
   'Tab': {false: '\t', true: '\t'},
   'Q': {false: 'q', true: 'Q'},

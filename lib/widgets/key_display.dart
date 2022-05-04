@@ -81,19 +81,13 @@ class _KeyDisplayState extends State<KeyDisplay> {
                             widget.keyData.character,
                             style: AppStyle.letter.copyWith(
                               fontSize: (widget.keyData.character.length > 1)
-                                  ? ((widget.keyData.secondCharacter != null)
-                                      ? 14
-                                      : 17)
+                                  ? ((widget.keyData.secondCharacter != null) ? 14 : 17)
                                   : 22,
-                              color: AppColor.contrast
-                                  .withOpacity(AppColor.chooser(1, 0.7)),
+                              color: AppColor.contrast.withOpacity(AppColor.chooser(1, 0.7)),
                             ),
                           ),
                         ),
-                        if (widget.keyData.secondCharacter != null)
-                          const SizedBox(
-                            width: 8,
-                          ),
+                        if (widget.keyData.secondCharacter != null) const SizedBox(width: 8),
                         if (widget.keyData.secondCharacter != null)
                           Align(
                             alignment: Alignment.topRight,

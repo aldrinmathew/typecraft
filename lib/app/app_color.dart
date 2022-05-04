@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../model/preferences.dart';
 
+/// AppColor manages the theme mode of the app. Currently the fields are static
+/// and provides sufficient functionality.
 class AppColor {
   static bool isDarkMode = false;
 

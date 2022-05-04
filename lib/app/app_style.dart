@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// AppStyle includes all styles used throughout the application
 class AppStyle {
   static TextStyle letter = TextStyle(
     fontFamily: 'Quicksand',
