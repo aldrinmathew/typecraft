@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_function_declarations_over_variables
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:typecraft/model/preferences.dart';
 import 'dart:math';
 
-import 'constants.dart';
 import 'words.dart';
 
 class TextModel {
@@ -14,7 +13,7 @@ class TextModel {
 
   String _inputText = '';
 
-  int _numberOfWords = 8;
+  int wordCount = 8;
 
   bool capital = true;
 
@@ -25,8 +24,6 @@ class TextModel {
   bool get isTimerRunning => _stopwatch.isRunning;
 
   void Function() callback = () {};
-
-  SharedPreferences? preferences;
 
   List<String> get textList => _textList;
 
@@ -57,26 +54,6 @@ class TextModel {
   }
 
   TextModel() {
-    syncData();
-  }
-
-  void syncData() async {
-    preferences = await SharedPreferences.getInstance();
-    int? cacheCharacterCount = preferences!.getInt(characterCountKey);
-    double? cacheRuntime = preferences!.getDouble(timeTakenKey);
-    int? cacheWordCount = preferences!.getInt(wordCountKey);
-    if (cacheCharacterCount == null) {
-      preferences!.setInt(characterCountKey, 0);
-    }
-    characterCount = cacheCharacterCount ?? 0;
-    if (cacheRuntime == null) {
-      preferences!.setDouble(timeTakenKey, 0);
-    }
-    previousRuntime = ((cacheRuntime ?? 0) * 10000).truncate();
-    if (cacheWordCount == null) {
-      preferences!.setInt(wordCountKey, 8);
-    }
-    _numberOfWords = cacheWordCount ?? 8;
     getText();
   }
 
@@ -93,9 +70,9 @@ class TextModel {
   }
 
   void increaseWordCount() {
-    if (_numberOfWords < 30) {
-      _numberOfWords += 4;
-      preferences!.setInt(wordCountKey, _numberOfWords);
+    if (wordCount < 30) {
+      wordCount += 4;
+      Preferences.wordCount = wordCount;
       _inputText = '';
       stopTimer();
       getText();
@@ -104,9 +81,9 @@ class TextModel {
   }
 
   void decreaseWordCount() {
-    if (_numberOfWords >= 8) {
-      _numberOfWords -= 4;
-      preferences!.setInt(wordCountKey, _numberOfWords);
+    if (wordCount >= 8) {
+      wordCount -= 4;
+      Preferences.wordCount = wordCount;
       _inputText = '';
       stopTimer();
       getText();
@@ -117,10 +94,8 @@ class TextModel {
   void resetStatistics() {
     _stopwatch.stop();
     _stopwatch.reset();
-    if (preferences != null) {
-      preferences!.setInt(characterCountKey, 0);
-      preferences!.setDouble(timeTakenKey, 0);
-    }
+    Preferences.charCount = 0;
+    Preferences.timeTaken = 0;
     previousRuntime = 0;
     characterCount = 0;
     getText();
@@ -128,10 +103,8 @@ class TextModel {
   }
 
   void stopTimer() {
-    if (preferences != null) {
-      preferences!.setInt(characterCountKey, characterCount);
-      preferences!.setDouble(timeTakenKey, (previousRuntime + _stopwatch.elapsedMilliseconds) / 10000);
-    }
+    Preferences.charCount = characterCount;
+    Preferences.timeTaken = (previousRuntime + _stopwatch.elapsedMilliseconds) / 10000;
     _stopwatch.stop();
   }
 
@@ -139,7 +112,7 @@ class TextModel {
   void getText() {
     List<String> returnList = [];
     Random random = Random();
-    for (int i = 0; i < _numberOfWords; i++) {
+    for (int i = 0; i < wordCount; i++) {
       String word = words[random.nextInt(words.length)];
       while (word.length > 7) {
         word = words[random.nextInt(words.length)];

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/constants.dart';
+import '../model/preferences.dart';
 
 class AppColor {
   static bool isDarkMode = false;
@@ -24,8 +23,6 @@ class AppColor {
 
   static Color error = Colors.red;
 
-  static SharedPreferences? preferences;
-
   static T chooser<T>(T lightMode, T darkMode) {
     if (isDarkMode) {
       return darkMode;
@@ -35,18 +32,18 @@ class AppColor {
   }
 
   static void switcher(ThemeSwitchMode mode) {
-    if (mode == ThemeSwitchMode.dark) {
+    if (mode == ThemeSwitchMode.dark && !isDarkMode) {
       isDarkMode = true;
-      preferences!.setString(themeModeKey, 'DARK');
-    } else if (mode == ThemeSwitchMode.light) {
+      Preferences.themeMode = ThemeSwitchMode.dark;
+    } else if (mode == ThemeSwitchMode.light && isDarkMode) {
       isDarkMode = false;
-      preferences!.setString(themeModeKey, 'LIGHT');
+      Preferences.themeMode = ThemeSwitchMode.light;
     } else {
       isDarkMode = !isDarkMode;
       if (isDarkMode) {
-        preferences!.setString(themeModeKey, 'DARK');
+        Preferences.themeMode = ThemeSwitchMode.dark;
       } else {
-        preferences!.setString(themeModeKey, 'LIGHT');
+        Preferences.themeMode = ThemeSwitchMode.light;
       }
     }
   }
