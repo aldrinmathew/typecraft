@@ -4,6 +4,11 @@ import 'dart:math';
 
 import 'words.dart';
 
+/// TextModel handles the generation, updation and management of the prompt text,
+/// which is displayed to the user
+///
+/// It also provides appropriate fields which the UI uses to render widgets
+/// appropriately
 class TextModel {
   List<String> _textList = [];
 
@@ -54,6 +59,9 @@ class TextModel {
   }
 
   TextModel() {
+    characterCount = Preferences.charCount;
+    wordCount = Preferences.wordCount;
+    previousRuntime = (Preferences.timeTaken * 10000).truncate();
     getText();
   }
 
