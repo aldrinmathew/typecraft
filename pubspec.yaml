@@ -1,8 +1,8 @@
 name: typecraft
 description: Elegant & Intuitive app to help you type faster...
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
-repository: https://github.com/aldrinsartfactory/typecraft
+repository: https://github.com/aldrinmathew/typecraft
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
@@ -25,11 +25,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: Lora
-      fonts:
-        - asset: assets/fonts/Lora-Regular.ttf
-        - asset: assets/fonts/Lora-Bold.ttf
-          weight: 700
     - family: FiraCode
       fonts:
         - asset: assets/fonts/FiraCode-Regular.ttf
@@ -46,7 +41,7 @@ flutter:
   #   publisher_display_name: Aldrin's Art Factory
   #   identity_name: aldrinsartfactory.utility.typecraft
   #   msix_version: 2.2.0.2
-  #   logo_path: 
+  #   logo_path:
 
   # To add assets to your application, add an assets section, like this:
   #   - images/a_dot_ham.jpeg
@@ -76,3 +71,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
