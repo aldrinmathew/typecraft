@@ -279,371 +279,377 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColor.main,
-      body: FocusableActionDetector(
-        focusNode: focusNode,
-        autofocus: true,
-        shortcuts: shortcuts,
-        actions: actions,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: FittedBox(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: height / 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Material(
-                        color: textData.isTimerRunning ? Colors.lightGreen : AppColor.contrast.withOpacity(0.1),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SizedBox.square(
-                              dimension: 22,
-                              child: FittedBox(
-                                child: AnimatedRotation(
-                                  onEnd: () {
-                                    if (textData.isTimerRunning) {
-                                      if (timerIconTurns != 1) {
-                                        setState(() {
-                                          timerIconTurns = 1;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          timerIconTurns = 2;
-                                        });
-                                      }
-                                    }
-                                  },
-                                  turns: textData.isTimerRunning ? timerIconTurns : 0,
-                                  duration: const Duration(milliseconds: 500),
-                                  child: Icon(
-                                    textData.isTimerRunning ? Icons.timer : Icons.timer_off,
-                                    color:
-                                        textData.isTimerRunning ? AppColor.light : AppColor.contrast.withOpacity(0.7),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.lerp(
-                          Colors.red,
-                          Colors.green,
-                          (textData.wordsPerMinute <= 140)
-                              ? (textData.wordsPerMinute / 140)
-                              : ((textData.wordsPerMinute <= 200)
-                                  ? (textData.wordsPerMinute / 200)
-                                  : (textData.wordsPerMinute / 280)),
-                        ),
-                      ),
-                      child: AnimatedFlipCounter(
-                        duration: const Duration(milliseconds: 300),
-                        value: textData.wordsPerMinute,
-                        fractionDigits: 2,
-                        textStyle: const TextStyle(
-                          fontFamily: 'Fira Code',
-                          fontSize: 23,
-                          color: AppColor.light,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'WORDS PER',
-                          style: TextStyle(
-                            fontFamily: 'Fira Code',
-                            fontSize: 11,
-                            color: AppColor.contrast,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'MINUTE',
-                          style: TextStyle(
-                            fontFamily: 'Fira Code',
-                            fontSize: 16,
-                            color: AppColor.contrast,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 10),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Material(
-                        color: AppColor.contrast.withOpacity(0.1),
-                        child: InkWell(
-                          onTap: () {
-                            AppColor.switcher(ThemeSwitchMode.change);
-                            setState(() {});
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SizedBox.square(
-                              dimension: 22,
-                              child: FittedBox(
-                                child: Icon(
-                                  AppColor.isDarkMode ? Icons.brightness_low : Icons.brightness_2_rounded,
-                                  color: AppColor.contrast.withOpacity(0.7),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: height * 0.4,
-                  width: width,
-                  child: Row(
+      body: AnimatedContainer(
+        height: h,
+        width: w,
+        duration: const Duration(milliseconds: 400),
+        color: AppColor.main,
+        child: FocusableActionDetector(
+          focusNode: focusNode,
+          autofocus: true,
+          shortcuts: shortcuts,
+          actions: actions,
+          child: SizedBox(
+            height: h,
+            width: w,
+            child: FittedBox(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: h / 50,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(width: width * 0.33),
-                      SizedBox(
-                        width: width * 0.33,
-                        child: FittedBox(
-                          child: TextDisplay(
-                            textData: textData,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.4,
-                        width: width * 0.33,
-                        child: FittedBox(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: height * 0.06),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Material(
-                                    color: AppColor.contrast.withOpacity(0.1),
-                                    child: InkWell(
-                                      onTap: () {
-                                        textData.resetStatistics();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SizedBox.square(
-                                          dimension: 25,
-                                          child: Icon(
-                                            Icons.restart_alt_rounded,
-                                            color: AppColor.contrast.withOpacity(0.7),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                                  child: Material(
-                                    color: AppColor.contrast.withOpacity(0.1),
-                                    child: InkWell(
-                                      onTap: () {
-                                        textData.increaseWordCount();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SizedBox.square(
-                                          dimension: 25,
-                                          child: SvgPicture.string(
-                                            AppIcons.add,
-                                            color: AppColor.contrast.withOpacity(0.7),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
-                                  child: Material(
-                                    color: AppColor.contrast.withOpacity(0.1),
-                                    child: InkWell(
-                                      onTap: () {
-                                        textData.decreaseWordCount();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SizedBox.square(
-                                          dimension: 25,
-                                          child: SvgPicture.string(
-                                            AppIcons.subtract,
-                                            color: AppColor.contrast.withOpacity(0.7),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Material(
-                                    color: AppColor.contrast.withOpacity(0.1),
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (isKeyboardVisible) {
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Material(
+                          color: textData.isTimerRunning ? Colors.lightGreen : AppColor.contrast.withOpacity(0.1),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox.square(
+                                dimension: 22,
+                                child: FittedBox(
+                                  child: AnimatedRotation(
+                                    onEnd: () {
+                                      if (textData.isTimerRunning) {
+                                        if (timerIconTurns != 1) {
                                           setState(() {
-                                            keyboardOpacity = 0.0;
-                                            Future.delayed(keyboardOpacityDuration, () {
-                                              setState(() {
-                                                keyboardHeight = 0.0;
-                                                Future.delayed(keyboardHeightDuration, () {
-                                                  setState(() {
-                                                    isKeyboardVisible = !isKeyboardVisible;
-                                                  });
-                                                });
-                                              });
-                                            });
+                                            timerIconTurns = 1;
                                           });
                                         } else {
                                           setState(() {
-                                            isKeyboardVisible = !isKeyboardVisible;
-                                            Future.delayed(const Duration(milliseconds: 20), () {
-                                              setState(() {
-                                                keyboardHeight = height * 0.4;
-                                                Future.delayed(keyboardHeightDuration, () {
-                                                  setState(() {
-                                                    keyboardOpacity = 1.0;
-                                                  });
-                                                });
-                                              });
-                                            });
+                                            timerIconTurns = 2;
                                           });
                                         }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SizedBox.square(
-                                          dimension: 25,
-                                          child: Icon(
-                                            isKeyboardVisible ? Icons.keyboard_alt : Icons.keyboard_alt_outlined,
-                                            color: AppColor.contrast.withOpacity(0.7),
-                                          ),
-                                        ),
-                                      ),
+                                      }
+                                    },
+                                    turns: textData.isTimerRunning ? timerIconTurns : 0,
+                                    duration: const Duration(milliseconds: 500),
+                                    child: Icon(
+                                      textData.isTimerRunning ? Icons.timer : Icons.timer_off,
+                                      color:
+                                          textData.isTimerRunning ? AppColor.light : AppColor.contrast.withOpacity(0.7),
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.lerp(
+                            Colors.red,
+                            Colors.green,
+                            (textData.wordsPerMinute <= 140)
+                                ? (textData.wordsPerMinute / 140)
+                                : ((textData.wordsPerMinute <= 200)
+                                    ? (textData.wordsPerMinute / 200)
+                                    : (textData.wordsPerMinute / 280)),
+                          ),
+                        ),
+                        child: AnimatedFlipCounter(
+                          duration: const Duration(milliseconds: 300),
+                          value: textData.wordsPerMinute,
+                          fractionDigits: 2,
+                          textStyle: const TextStyle(
+                            fontFamily: 'Fira Code',
+                            fontSize: 23,
+                            color: AppColor.light,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'WORDS PER',
+                            style: TextStyle(
+                              fontFamily: 'Fira Code',
+                              fontSize: 11,
+                              color: AppColor.contrast,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'MINUTE',
+                            style: TextStyle(
+                              fontFamily: 'Fira Code',
+                              fontSize: 16,
+                              color: AppColor.contrast,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Material(
+                          color: AppColor.contrast.withOpacity(0.1),
+                          child: InkWell(
+                            onTap: () {
+                              AppColor.switcher(ThemeSwitchMode.change);
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox.square(
+                                dimension: 22,
+                                child: FittedBox(
+                                  child: Icon(
+                                    AppColor.isDarkMode ? Icons.brightness_low : Icons.brightness_2_rounded,
+                                    color: AppColor.contrast.withOpacity(0.7),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (isKeyboardVisible)
-                  AnimatedOpacity(
-                    opacity: keyboardOpacity,
-                    duration: keyboardOpacityDuration,
-                    child: AnimatedContainer(
-                      duration: keyboardHeightDuration,
-                      height: keyboardHeight,
-                      child: FittedBox(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: AppColor.chooser(
-                                    AppColor.contrast.withOpacity(0.1), AppColor.contrast.withOpacity(0.07)),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 30,
-                              ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: h * 0.4,
+                    width: w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(width: w * 0.33),
+                        SizedBox(
+                          width: w * 0.33,
+                          child: FittedBox(
+                            child: TextDisplay(
+                              textData: textData,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: h * 0.4,
+                          width: w * 0.33,
+                          child: FittedBox(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: h * 0.06),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Row(
-                                    children: [for (int i = 0; i < 14; i++) KeyDisplay(keyData: allKeys[i])],
-                                  ),
-                                  padding,
-                                  Row(
-                                    children: [
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            children: [for (int i = 14; i < 27; i++) KeyDisplay(keyData: allKeys[i])],
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Material(
+                                      color: AppColor.contrast.withOpacity(0.1),
+                                      child: InkWell(
+                                        onTap: () {
+                                          textData.resetStatistics();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: SizedBox.square(
+                                            dimension: 25,
+                                            child: Icon(
+                                              Icons.restart_alt_rounded,
+                                              color: AppColor.contrast.withOpacity(0.7),
+                                            ),
                                           ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [for (int i = 27; i < 40; i++) KeyDisplay(keyData: allKeys[i])],
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                      KeyDisplay(keyData: allKeys[40]),
-                                    ],
+                                    ),
                                   ),
-                                  padding,
-                                  Row(
-                                    children: [for (int i = 41; i < 53; i++) KeyDisplay(keyData: allKeys[i])],
+                                  const SizedBox(height: 15),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                                    child: Material(
+                                      color: AppColor.contrast.withOpacity(0.1),
+                                      child: InkWell(
+                                        onTap: () {
+                                          textData.increaseWordCount();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: SizedBox.square(
+                                            dimension: 25,
+                                            child: SvgPicture.string(
+                                              AppIcons.add,
+                                              color: AppColor.contrast.withOpacity(0.7),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  padding,
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [for (int i = 53; i < 58; i++) KeyDisplay(keyData: allKeys[i])],
+                                  const SizedBox(height: 2),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+                                    child: Material(
+                                      color: AppColor.contrast.withOpacity(0.1),
+                                      child: InkWell(
+                                        onTap: () {
+                                          textData.decreaseWordCount();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: SizedBox.square(
+                                            dimension: 25,
+                                            child: SvgPicture.string(
+                                              AppIcons.subtract,
+                                              color: AppColor.contrast.withOpacity(0.7),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Material(
+                                      color: AppColor.contrast.withOpacity(0.1),
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (isKeyboardVisible) {
+                                            setState(() {
+                                              keyboardOpacity = 0.0;
+                                              Future.delayed(keyboardOpacityDuration, () {
+                                                setState(() {
+                                                  keyboardHeight = 0.0;
+                                                  Future.delayed(keyboardHeightDuration, () {
+                                                    setState(() {
+                                                      isKeyboardVisible = !isKeyboardVisible;
+                                                    });
+                                                  });
+                                                });
+                                              });
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isKeyboardVisible = !isKeyboardVisible;
+                                              Future.delayed(const Duration(milliseconds: 20), () {
+                                                setState(() {
+                                                  keyboardHeight = h * 0.4;
+                                                  Future.delayed(keyboardHeightDuration, () {
+                                                    setState(() {
+                                                      keyboardOpacity = 1.0;
+                                                    });
+                                                  });
+                                                });
+                                              });
+                                            });
+                                          }
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: SizedBox.square(
+                                            dimension: 25,
+                                            child: Icon(
+                                              isKeyboardVisible ? Icons.keyboard_alt : Icons.keyboard_alt_outlined,
+                                              color: AppColor.contrast.withOpacity(0.7),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  if (isKeyboardVisible)
+                    AnimatedOpacity(
+                      opacity: keyboardOpacity,
+                      duration: keyboardOpacityDuration,
+                      child: AnimatedContainer(
+                        duration: keyboardHeightDuration,
+                        height: keyboardHeight,
+                        child: FittedBox(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColor.chooser(
+                                      AppColor.contrast.withOpacity(0.1), AppColor.contrast.withOpacity(0.07)),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 15,
+                                  horizontal: 30,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [for (int i = 0; i < 14; i++) KeyDisplay(keyData: allKeys[i])],
+                                    ),
+                                    padding,
+                                    Row(
+                                      children: [
+                                        Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Row(
+                                              children: [for (int i = 14; i < 27; i++) KeyDisplay(keyData: allKeys[i])],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [for (int i = 27; i < 40; i++) KeyDisplay(keyData: allKeys[i])],
+                                            ),
+                                          ],
+                                        ),
+                                        KeyDisplay(keyData: allKeys[40]),
+                                      ],
+                                    ),
+                                    padding,
+                                    Row(
+                                      children: [for (int i = 41; i < 53; i++) KeyDisplay(keyData: allKeys[i])],
+                                    ),
+                                    padding,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [for (int i = 53; i < 58; i++) KeyDisplay(keyData: allKeys[i])],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                  const SizedBox(
+                    height: 30,
                   ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
