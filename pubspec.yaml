@@ -25,10 +25,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: FiraCode
+    - family: JetBrainsMono
       fonts:
-        - asset: assets/fonts/FiraCode-Regular.ttf
-        - asset: assets/fonts/FiraCode-Bold.ttf
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
+        - asset: assets/fonts/JetBrainsMono-Bold.ttf
           weight: 700
     - family: Quicksand
       fonts:
