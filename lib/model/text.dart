@@ -11,31 +11,26 @@ import 'words.dart';
 /// appropriately
 class TextModel {
   List<String> _textList = [];
-
   String _totalText = '';
-
   String get totalText => _totalText;
-
   String _inputText = '';
-
-  int wordCount = 8;
-
+  int wordLimit = 8;
   bool capital = true;
-
   int characterCount = 0;
-
   final Stopwatch _stopwatch = Stopwatch();
-
   bool get isTimerRunning => _stopwatch.isRunning;
-
   void Function() callback = () {};
-
   List<String> get textList => _textList;
-
   String get inputText => _inputText;
-
   int previousRuntime = 0;
 
+  TextModel() {
+    characterCount = Preferences.charCount;
+    wordLimit = Preferences.wordLimit;
+    previousRuntime = (Preferences.timeTaken * 10000).truncate();
+    getText();
+  }
+  
   double get wordsPerMinute {
     if ((previousRuntime + _stopwatch.elapsedMilliseconds) != 0) {
       double newWPM = (characterCount / 5) / (((previousRuntime + _stopwatch.elapsedMilliseconds) / 1000) / 60);
@@ -44,7 +39,7 @@ class TextModel {
       return 0;
     }
   }
-
+  
   set inputText(String value) {
     if ((_inputText == '') && (!_stopwatch.isRunning)) {
       _stopwatch.start();
@@ -56,13 +51,6 @@ class TextModel {
       stopTimer();
       getText();
     }
-  }
-
-  TextModel() {
-    characterCount = Preferences.charCount;
-    wordCount = Preferences.wordCount;
-    previousRuntime = (Preferences.timeTaken * 10000).truncate();
-    getText();
   }
 
   bool isSameCharacter(int index) {
@@ -78,9 +66,9 @@ class TextModel {
   }
 
   void increaseWordCount() {
-    if (wordCount < 30) {
-      wordCount += 4;
-      Preferences.wordCount = wordCount;
+    if (wordLimit < 30) {
+      wordLimit += 4;
+      Preferences.wordLimit = wordLimit;
       _inputText = '';
       stopTimer();
       getText();
@@ -89,9 +77,9 @@ class TextModel {
   }
 
   void decreaseWordCount() {
-    if (wordCount >= 8) {
-      wordCount -= 4;
-      Preferences.wordCount = wordCount;
+    if (wordLimit >= 8) {
+      wordLimit -= 4;
+      Preferences.wordLimit = wordLimit;
       _inputText = '';
       stopTimer();
       getText();
@@ -120,7 +108,7 @@ class TextModel {
   void getText() {
     List<String> returnList = [];
     Random random = Random();
-    for (int i = 0; i < wordCount; i++) {
+    for (int i = 0; i < wordLimit; i++) {
       String word = words[random.nextInt(words.length)];
       while (word.length > 7) {
         word = words[random.nextInt(words.length)];

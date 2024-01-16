@@ -48,11 +48,11 @@ class Preferences {
     }
 
     // Word Count
-    var wordValue = _preferences?.getInt(Constants.wordCountKey);
+    var wordValue = _preferences?.getInt(Constants.wordLimitKey);
     switch (wordValue) {
       case null:
         {
-          _preferences?.setInt(Constants.wordCountKey, 8);
+          _preferences?.setInt(Constants.wordLimitKey, 8);
           break;
         }
       default:
@@ -91,21 +91,24 @@ class Preferences {
   }
 
   static int _charCount = 0;
-
   static int get charCount => _charCount;
-
   static set charCount(int value) {
     _preferences?.setInt(Constants.characterCountKey, value);
     _charCount = value;
   }
 
-  static int _wordCount = 8;
-
+  static int _wordCount = 0;
   static int get wordCount => _wordCount;
-
   static set wordCount(int value) {
     _preferences?.setInt(Constants.wordCountKey, value);
     _wordCount = value;
+  }
+
+  static int _wordLimit = 8;
+  static int get wordLimit => _wordLimit;
+  static set wordLimit(int value) {
+    _preferences?.setInt(Constants.wordLimitKey, value);
+    _wordLimit = value;
   }
 
   static double _timeTaken = 0.1;

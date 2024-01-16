@@ -120,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
         /// Backspace functionality
         if (textData.inputText.isNotEmpty) {
-          textData.inputText = textData.inputText.substring(0, textData.inputText.length - 1);
+          textData.inputText =
+              textData.inputText.substring(0, textData.inputText.length - 1);
           setState(() {});
         }
 
@@ -157,7 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
               allKeys[27].secondCallback();
               isCapsLockPressed = false;
             }
-          } else if ((keyEvent is KeyDownEvent) || (keyEvent is KeyRepeatEvent)) {
+          } else if ((keyEvent is KeyDownEvent) ||
+              (keyEvent is KeyRepeatEvent)) {
             /// KeyRelease Animation Callback
 
             if (keyEvent is KeyDownEvent) {
@@ -184,11 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
             }
             if (!specialKeys.contains(keyEvent.logicalKey.keyLabel) &&
                 (textData.totalText.length != textData.inputText.length)) {
-              String expectedCharacter = textData.totalText[textData.inputText.length];
+              String expectedCharacter =
+                  textData.totalText[textData.inputText.length];
               String inputCharacter = keyEvent.logicalKey.keyLabel;
               if (keyCharacterMap.keys.contains(keyEvent.logicalKey.keyLabel)) {
-                inputCharacter =
-                    keyCharacterMap[keyEvent.logicalKey.keyLabel]![isShiftLeftPressed || isShiftRightPressed]!;
+                inputCharacter = keyCharacterMap[keyEvent.logicalKey.keyLabel]![
+                    isShiftLeftPressed || isShiftRightPressed]!;
               }
               KeyModel? inputKeyModel;
               for (var keyData in allKeys) {
@@ -205,7 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               if (inputKeyModel != null) {
                 if (expectedCharacter == inputCharacter) {
-                  if ((inputCharacter == inputCharacter.toUpperCase()) && (inputCharacter != ' ')) {
+                  if ((inputCharacter == inputCharacter.toUpperCase()) &&
+                      (inputCharacter != ' ')) {
                     if (lastShiftSide == 'Left') {
                       allKeys[41].correctCount++;
                     } else {
@@ -227,7 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         break;
                       }
                     }
-                    if ((keyData.character.toLowerCase() == expectedCharacter) ||
+                    if ((keyData.character.toLowerCase() ==
+                            expectedCharacter) ||
                         (keyData.character == expectedCharacter)) {
                       expectedKeyModel = keyData;
                       break;
@@ -242,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 textData.characterCount++;
               });
             } else {
-              if ((keyEvent.logicalKey.keyLabel == 'Backspace') && (textData.inputText.isNotEmpty)) {
+              if ((keyEvent.logicalKey.keyLabel == 'Backspace') &&
+                  (textData.inputText.isNotEmpty)) {
                 if (textData.totalText[textData.inputText.length - 1] !=
                     textData.inputText[textData.inputText.length - 1]) {
                   allKeys[13].correctCount++;
@@ -259,7 +265,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
       focusNode.requestFocus();
-      Set<KeyboardLockMode> lockKeys = WidgetsFlutterBinding.ensureInitialized().keyboard.lockModesEnabled;
+      Set<KeyboardLockMode> lockKeys =
+          WidgetsFlutterBinding.ensureInitialized().keyboard.lockModesEnabled;
       if (lockKeys.contains(KeyboardLockMode.capsLock)) {
         allKeys[27].firstCallback();
         isCapsLockPressed = true;
@@ -290,6 +297,11 @@ class _HomeScreenState extends State<HomeScreen> {
         color: AppColor.main,
         child: FocusableActionDetector(
           focusNode: focusNode,
+          onFocusChange: (value) {
+            if (!value) {
+              focusNode.requestFocus();
+            }
+          },
           autofocus: true,
           shortcuts: shortcuts,
           actions: actions,
@@ -299,22 +311,22 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FittedBox(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: h / 50,
-                  ),
+                  SizedBox(height: h / 50),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(20),
                         child: Material(
-                          color: textData.isTimerRunning ? Colors.lightGreen : AppColor.contrast.withOpacity(0.1),
+                          color: textData.isTimerRunning
+                              ? Colors.lightGreen
+                              : AppColor.contrast.withOpacity(0.1),
                           child: InkWell(
                             onTap: () {},
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: SizedBox.square(
-                                dimension: 22,
+                                dimension: 45,
                                 child: FittedBox(
                                   child: AnimatedRotation(
                                     onEnd: () {
@@ -330,12 +342,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         }
                                       }
                                     },
-                                    turns: textData.isTimerRunning ? timerIconTurns : 0,
+                                    turns: textData.isTimerRunning
+                                        ? timerIconTurns
+                                        : 0,
                                     duration: const Duration(milliseconds: 500),
                                     child: Icon(
-                                      textData.isTimerRunning ? Icons.timer : Icons.timer_off,
-                                      color:
-                                          textData.isTimerRunning ? AppColor.light : AppColor.contrast.withOpacity(0.7),
+                                      textData.isTimerRunning
+                                          ? Icons.timer
+                                          : Icons.timer_off,
+                                      color: textData.isTimerRunning
+                                          ? AppColor.light
+                                          : AppColor.contrast.withOpacity(0.7),
                                     ),
                                   ),
                                 ),
@@ -346,9 +363,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 10),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(15),
                           color: Color.lerp(
                             Colors.red,
                             Colors.green,
@@ -364,16 +382,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           value: textData.wordsPerMinute,
                           fractionDigits: 2,
                           textStyle: const TextStyle(
-                            fontFamily: 'Fira Code',
-                            fontSize: 23,
+                            fontFamily: 'JetBrainsMono',
+                            fontSize: 30,
                             color: AppColor.light,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -381,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             'WORDS PER',
                             style: TextStyle(
-                              fontFamily: 'Fira Code',
+                              fontFamily: 'JetBrainsMono',
                               fontSize: 11,
                               color: AppColor.contrast,
                               fontWeight: FontWeight.bold,
@@ -390,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             'MINUTE',
                             style: TextStyle(
-                              fontFamily: 'Fira Code',
+                              fontFamily: 'JetBrainsMono',
                               fontSize: 16,
                               color: AppColor.contrast,
                               fontWeight: FontWeight.bold,
@@ -400,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 10),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(20),
                         child: Material(
                           color: AppColor.contrast.withOpacity(0.1),
                           child: InkWell(
@@ -411,10 +427,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: SizedBox.square(
-                                dimension: 22,
+                                dimension: 45,
                                 child: FittedBox(
                                   child: Icon(
-                                    AppColor.isDarkMode ? Icons.brightness_low : Icons.brightness_2_rounded,
+                                    AppColor.isDarkMode
+                                        ? Icons.brightness_low
+                                        : Icons.brightness_2_rounded,
                                     color: AppColor.contrast.withOpacity(0.7),
                                   ),
                                 ),
@@ -427,24 +445,123 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    height: h * 0.4,
+                    height: h * 0.5,
                     width: w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(width: w * 0.33),
                         SizedBox(
-                          width: w * 0.33,
+                            height: h * 0.4,
+                            width: w * 0.25,
+                            child: FittedBox(
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.symmetric(vertical: h * 0.06),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Material(
+                                        color:
+                                            AppColor.contrast.withOpacity(0.1),
+                                        child: InkWell(
+                                          onTap: () {
+                                            textData.resetStatistics();
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SizedBox.square(
+                                              dimension: 25,
+                                              child: Icon(
+                                                Icons.restart_alt_rounded,
+                                                color: AppColor.contrast
+                                                    .withOpacity(0.7),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Material(
+                                        color:
+                                            AppColor.contrast.withOpacity(0.1),
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (isKeyboardVisible) {
+                                              setState(() {
+                                                keyboardOpacity = 0.0;
+                                                Future.delayed(
+                                                    keyboardOpacityDuration,
+                                                    () {
+                                                  setState(() {
+                                                    keyboardHeight = 0.0;
+                                                    Future.delayed(
+                                                        keyboardHeightDuration,
+                                                        () {
+                                                      setState(() {
+                                                        isKeyboardVisible =
+                                                            !isKeyboardVisible;
+                                                      });
+                                                    });
+                                                  });
+                                                });
+                                              });
+                                            } else {
+                                              setState(() {
+                                                isKeyboardVisible =
+                                                    !isKeyboardVisible;
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 20), () {
+                                                  setState(() {
+                                                    keyboardHeight = h * 0.4;
+                                                    Future.delayed(
+                                                        keyboardHeightDuration,
+                                                        () {
+                                                      setState(() {
+                                                        keyboardOpacity = 1.0;
+                                                      });
+                                                    });
+                                                  });
+                                                });
+                                              });
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SizedBox.square(
+                                              dimension: 25,
+                                              child: Icon(
+                                                isKeyboardVisible
+                                                    ? Icons.keyboard_alt
+                                                    : Icons
+                                                        .keyboard_alt_outlined,
+                                                color: AppColor.contrast
+                                                    .withOpacity(0.7),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          width: w * 0.5,
                           child: FittedBox(
-                            child: TextDisplay(
-                              textData: textData,
-                            ),
-                          ),
+                              child: Center(
+                                  child: TextDisplay(textData: textData))),
                         ),
                         SizedBox(
                           height: h * 0.4,
-                          width: w * 0.33,
+                          width: w * 0.25,
                           child: FittedBox(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: h * 0.06),
@@ -453,29 +570,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Material(
-                                      color: AppColor.contrast.withOpacity(0.1),
-                                      child: InkWell(
-                                        onTap: () {
-                                          textData.resetStatistics();
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: SizedBox.square(
-                                            dimension: 25,
-                                            child: Icon(
-                                              Icons.restart_alt_rounded,
-                                              color: AppColor.contrast.withOpacity(0.7),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15),
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                                    borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(15)),
                                     child: Material(
                                       color: AppColor.contrast.withOpacity(0.1),
                                       child: InkWell(
@@ -488,16 +584,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                             dimension: 25,
                                             child: SvgPicture.string(
                                               AppIcons.add,
-                                              color: AppColor.contrast.withOpacity(0.7),
+                                              color: AppColor.contrast
+                                                  .withOpacity(0.7),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 2),
+                                  const SizedBox(height: 5),
                                   ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+                                    borderRadius: const BorderRadius.vertical(
+                                        bottom: Radius.circular(15)),
                                     child: Material(
                                       color: AppColor.contrast.withOpacity(0.1),
                                       child: InkWell(
@@ -510,57 +608,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             dimension: 25,
                                             child: SvgPicture.string(
                                               AppIcons.subtract,
-                                              color: AppColor.contrast.withOpacity(0.7),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Material(
-                                      color: AppColor.contrast.withOpacity(0.1),
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (isKeyboardVisible) {
-                                            setState(() {
-                                              keyboardOpacity = 0.0;
-                                              Future.delayed(keyboardOpacityDuration, () {
-                                                setState(() {
-                                                  keyboardHeight = 0.0;
-                                                  Future.delayed(keyboardHeightDuration, () {
-                                                    setState(() {
-                                                      isKeyboardVisible = !isKeyboardVisible;
-                                                    });
-                                                  });
-                                                });
-                                              });
-                                            });
-                                          } else {
-                                            setState(() {
-                                              isKeyboardVisible = !isKeyboardVisible;
-                                              Future.delayed(const Duration(milliseconds: 20), () {
-                                                setState(() {
-                                                  keyboardHeight = h * 0.4;
-                                                  Future.delayed(keyboardHeightDuration, () {
-                                                    setState(() {
-                                                      keyboardOpacity = 1.0;
-                                                    });
-                                                  });
-                                                });
-                                              });
-                                            });
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: SizedBox.square(
-                                            dimension: 25,
-                                            child: Icon(
-                                              isKeyboardVisible ? Icons.keyboard_alt : Icons.keyboard_alt_outlined,
-                                              color: AppColor.contrast.withOpacity(0.7),
+                                              color: AppColor.contrast
+                                                  .withOpacity(0.7),
                                             ),
                                           ),
                                         ),
@@ -575,9 +624,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   if (isKeyboardVisible)
                     AnimatedOpacity(
                       opacity: keyboardOpacity,
@@ -594,7 +641,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: AppColor.chooser(
-                                      AppColor.contrast.withOpacity(0.1), AppColor.contrast.withOpacity(0.07)),
+                                      AppColor.contrast.withOpacity(0.1),
+                                      AppColor.contrast.withOpacity(0.07)),
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 15,
@@ -606,7 +654,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Row(
-                                      children: [for (int i = 0; i < 14; i++) KeyDisplay(keyData: allKeys[i])],
+                                      children: [
+                                        for (int i = 0; i < 14; i++)
+                                          KeyDisplay(keyData: allKeys[i])
+                                      ],
                                     ),
                                     padding,
                                     Row(
@@ -615,13 +666,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Row(
-                                              children: [for (int i = 14; i < 27; i++) KeyDisplay(keyData: allKeys[i])],
+                                              children: [
+                                                for (int i = 14; i < 27; i++)
+                                                  KeyDisplay(
+                                                      keyData: allKeys[i])
+                                              ],
                                             ),
                                             const SizedBox(
                                               height: 5,
                                             ),
                                             Row(
-                                              children: [for (int i = 27; i < 40; i++) KeyDisplay(keyData: allKeys[i])],
+                                              children: [
+                                                for (int i = 27; i < 40; i++)
+                                                  KeyDisplay(
+                                                      keyData: allKeys[i])
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -630,12 +689,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     padding,
                                     Row(
-                                      children: [for (int i = 41; i < 53; i++) KeyDisplay(keyData: allKeys[i])],
+                                      children: [
+                                        for (int i = 41; i < 53; i++)
+                                          KeyDisplay(keyData: allKeys[i])
+                                      ],
                                     ),
                                     padding,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [for (int i = 53; i < 58; i++) KeyDisplay(keyData: allKeys[i])],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        for (int i = 53; i < 58; i++)
+                                          KeyDisplay(keyData: allKeys[i])
+                                      ],
                                     ),
                                   ],
                                 ),

@@ -5,11 +5,11 @@ import 'screens/home_screen.dart';
 
 void main() async {
   await Preferences.init();
-  runApp(const TypeCasterApp());
+  runApp(const TypeCraftApp());
 }
 
-class TypeCasterApp extends StatelessWidget {
-  const TypeCasterApp({Key? key}) : super(key: key);
+class TypeCraftApp extends StatelessWidget {
+  const TypeCraftApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -151,7 +151,7 @@ class _SingleCharacterState extends State<SingleCharacter> {
               widget.textData.textList[widget.lineIndex][widget.characterIndex],
               style: TextStyle(
                 fontSize: 25,
-                fontFamily: 'FiraCode',
+                fontFamily: 'JetBrainsMono',
                 fontWeight: FontWeight.bold,
                 color: (widget.textData
                                 .previousLinesCharacters(widget.lineIndex) +
