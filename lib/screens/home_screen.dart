@@ -116,27 +116,6 @@ class HomeScreenState extends State<HomeScreen> {
         }
       }
 
-      /// Special callback for backspace
-      // actions[IntentKeyBackspace] = CallbackAction(onInvoke: (_) {
-      //   /// Press Animation
-      //   allKeys[13].firstCallback();
-
-      //   /// Backspace functionality
-      //   if (textData.inputText.isNotEmpty) {
-      //     textData.inputText =
-      //         textData.inputText.substring(0, textData.inputText.length - 1);
-      //     setState(() {});
-      //   }
-
-      //   /// Release Animation after a delay
-      //   Future.delayed(
-      //     const Duration(milliseconds: 50),
-      //     allKeys[13].secondCallback,
-      //   );
-
-      //   return null;
-      // });
-
       /// Logic for input updation, control characters and more...
       focusNode = FocusNode(
         canRequestFocus: true,
@@ -312,7 +291,7 @@ class HomeScreenState extends State<HomeScreen> {
       body: AnimatedContainer(
         height: h,
         width: w,
-        duration: const Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 100),
         color: AppColor.main,
         child: FocusableActionDetector(
           focusNode: focusNode,
@@ -340,39 +319,36 @@ class HomeScreenState extends State<HomeScreen> {
                           color: textData.isTimerRunning
                               ? Colors.lightGreen
                               : AppColor.contrast.withOpacity(0.1),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SizedBox.square(
-                                dimension: 45,
-                                child: FittedBox(
-                                  child: AnimatedRotation(
-                                    onEnd: () {
-                                      if (textData.isTimerRunning) {
-                                        if (timerIconTurns != 1) {
-                                          setState(() {
-                                            timerIconTurns = 1;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            timerIconTurns = 2;
-                                          });
-                                        }
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SizedBox.square(
+                              dimension: 45,
+                              child: FittedBox(
+                                child: AnimatedRotation(
+                                  onEnd: () {
+                                    if (textData.isTimerRunning) {
+                                      if (timerIconTurns != 1) {
+                                        setState(() {
+                                          timerIconTurns = 1;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          timerIconTurns = 2;
+                                        });
                                       }
-                                    },
-                                    turns: textData.isTimerRunning
-                                        ? timerIconTurns
-                                        : 0,
-                                    duration: const Duration(milliseconds: 500),
-                                    child: Icon(
-                                      textData.isTimerRunning
-                                          ? Icons.timer
-                                          : Icons.timer_off,
-                                      color: textData.isTimerRunning
-                                          ? AppColor.light
-                                          : AppColor.contrast.withOpacity(0.7),
-                                    ),
+                                    }
+                                  },
+                                  turns: textData.isTimerRunning
+                                      ? timerIconTurns
+                                      : 0,
+                                  duration: const Duration(milliseconds: 500),
+                                  child: Icon(
+                                    textData.isTimerRunning
+                                        ? Icons.timer
+                                        : Icons.timer_off,
+                                    color: textData.isTimerRunning
+                                        ? AppColor.light
+                                        : AppColor.contrast.withOpacity(0.7),
                                   ),
                                 ),
                               ),
@@ -386,15 +362,7 @@ class HomeScreenState extends State<HomeScreen> {
                             vertical: 12, horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Color.lerp(
-                            Colors.red,
-                            Colors.green,
-                            (textData.wordsPerMinute <= 140)
-                                ? (textData.wordsPerMinute / 140)
-                                : ((textData.wordsPerMinute <= 200)
-                                    ? (textData.wordsPerMinute / 200)
-                                    : (textData.wordsPerMinute / 280)),
-                          ),
+                          color: Colors.green,
                         ),
                         child: AnimatedFlipCounter(
                           duration: const Duration(milliseconds: 300),
@@ -472,7 +440,7 @@ class HomeScreenState extends State<HomeScreen> {
                       children: [
                         SizedBox(
                             height: h * 0.4,
-                            width: w * 0.25,
+                            width: w * 0.1,
                             child: FittedBox(
                               child: Padding(
                                 padding:
@@ -603,14 +571,14 @@ class HomeScreenState extends State<HomeScreen> {
                               ),
                             )),
                         SizedBox(
-                          width: w * 0.5,
+                          width: w * 0.8,
                           child: FittedBox(
                               child: Center(
                                   child: TextDisplay(textData: textData))),
                         ),
                         SizedBox(
                           height: h * 0.4,
-                          width: w * 0.25,
+                          width: w * 0.1,
                           child: FittedBox(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: h * 0.06),
@@ -681,6 +649,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: AnimatedContainer(
                         duration: keyboardHeightDuration,
                         height: keyboardHeight,
+                        margin: const EdgeInsets.symmetric(horizontal: 40),
                         child: FittedBox(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -721,9 +690,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                       keyData: allKeys[i])
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               children: [
                                                 for (int i = 27; i < 40; i++)
@@ -760,9 +727,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
