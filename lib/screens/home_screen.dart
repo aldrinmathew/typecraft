@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,6 +29,7 @@ class HomeScreenState extends State<HomeScreen> {
   bool isShiftLeftPressed = false;
   bool isShiftRightPressed = false;
   bool isCapsLockPressed = false;
+  late Timer capsLockTimer;
   List<Type> specialIntents = [
     IntentKeyShiftLeft,
     IntentKeyShiftRight,
@@ -156,7 +159,6 @@ class HomeScreenState extends State<HomeScreen> {
               allKeys[56].secondCallback();
             } else if (isSameKey(keyEvent, 'Caps Lock')) {
               allKeys[27].secondCallback();
-              isCapsLockPressed = false;
             } else if (isSameKey(keyEvent, 'Backspace')) {
               allKeys[13].secondCallback();
             }
@@ -183,7 +185,9 @@ class HomeScreenState extends State<HomeScreen> {
                 allKeys[56].firstCallback();
               } else if (isSameKey(keyEvent, 'Caps Lock')) {
                 allKeys[27].firstCallback();
-                isCapsLockPressed = true;
+                setState(() {
+                  isCapsLockPressed = !isCapsLockPressed;
+                });
               }
             }
             if (!specialKeys.contains(keyEvent.logicalKey.keyLabel) &&
@@ -272,12 +276,19 @@ class HomeScreenState extends State<HomeScreen> {
         },
       );
       focusNode.requestFocus();
-      Set<KeyboardLockMode> lockKeys =
-          WidgetsFlutterBinding.ensureInitialized().keyboard.lockModesEnabled;
-      if (lockKeys.contains(KeyboardLockMode.capsLock)) {
-        allKeys[27].firstCallback();
+      if (HardwareKeyboard.instance.lockModesEnabled
+          .contains(KeyboardLockMode.capsLock)) {
         isCapsLockPressed = true;
       }
+      capsLockTimer = Timer.periodic(const Duration(milliseconds: 20), (timer) {
+        final isCaps = HardwareKeyboard.instance.lockModesEnabled
+            .contains(KeyboardLockMode.capsLock);
+        if (isCaps != isCapsLockPressed) {
+          setState(() {
+            isCapsLockPressed = isCaps;
+          });
+        }
+      });
     } catch (exception) {
       // ignore: avoid_print
       print(exception);
@@ -287,6 +298,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    capsLockTimer.cancel();
     focusNode.dispose();
     super.dispose();
   }
@@ -468,6 +480,36 @@ class HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 50),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: isCapsLockPressed
+                                            ? Colors.green
+                                            : AppColor.contrast
+                                                .withOpacity(0.1),
+                                      ),
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SizedBox.square(
+                                        dimension: 25,
+                                        child: FittedBox(
+                                          child: Text(
+                                              isCapsLockPressed
+                                                  ? 'CAPS'
+                                                  : 'caps',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: 'JetBrainsMono',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isCapsLockPressed
+                                                      ? AppColor.main
+                                                      : AppColor.contrast
+                                                          .withOpacity(0.7))),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(15),
                                       child: Material(
