@@ -7,17 +7,17 @@ import '../model/key.dart';
 
 class KeyDisplay extends StatefulWidget {
   const KeyDisplay({
-    Key? key,
+    super.key,
     required this.keyData,
-  }) : super(key: key);
+  });
 
   final KeyModel keyData;
 
   @override
-  _KeyDisplayState createState() => _KeyDisplayState();
+  KeyDisplayState createState() => KeyDisplayState();
 }
 
-class _KeyDisplayState extends State<KeyDisplay> {
+class KeyDisplayState extends State<KeyDisplay> {
   late final Hookful<double> height;
   late final Hookful<int> duration;
   late final FocusNode focusNode;
@@ -35,7 +35,7 @@ class _KeyDisplayState extends State<KeyDisplay> {
 
   void animateForward() {
     height.value = widget.keyData.height ?? 50;
-    duration.value = 50;
+    // duration.value = 50;
   }
 
   void animateBackward() {
@@ -64,10 +64,13 @@ class _KeyDisplayState extends State<KeyDisplay> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(5),
                 alignment: Alignment.center,
                 height: widget.keyData.height ?? 50,
                 width: widget.keyData.width ?? 50,
+                decoration: BoxDecoration(
+                  color: AppColor.main,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -81,13 +84,17 @@ class _KeyDisplayState extends State<KeyDisplay> {
                             widget.keyData.character,
                             style: AppStyle.letter.copyWith(
                               fontSize: (widget.keyData.character.length > 1)
-                                  ? ((widget.keyData.secondCharacter != null) ? 14 : 17)
+                                  ? ((widget.keyData.secondCharacter != null)
+                                      ? 14
+                                      : 17)
                                   : 22,
-                              color: AppColor.contrast.withOpacity(AppColor.chooser(1, 0.7)),
+                              color: AppColor.contrast
+                                  .withOpacity(AppColor.chooser(1, 0.7)),
                             ),
                           ),
                         ),
-                        if (widget.keyData.secondCharacter != null) const SizedBox(width: 8),
+                        if (widget.keyData.secondCharacter != null)
+                          const SizedBox(width: 8),
                         if (widget.keyData.secondCharacter != null)
                           Align(
                             alignment: Alignment.topRight,
@@ -102,23 +109,22 @@ class _KeyDisplayState extends State<KeyDisplay> {
                       ],
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 5),
+                      margin: const EdgeInsets.only(top: 5, bottom: 2),
                       width: (widget.keyData.width ?? 50) - 20,
                       height: 6,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
-                        color: Color.lerp(
-                          Colors.red,
-                          Colors.green,
-                          widget.keyData.accuracy,
-                        ),
+                        color: (widget.keyData.correctCount == 0 &&
+                                widget.keyData.mistakeCount == 0)
+                            ? AppColor.contrast.withOpacity(0.3)
+                            : Color.lerp(
+                                Colors.red,
+                                Colors.green,
+                                widget.keyData.accuracy,
+                              ),
                       ),
                     )
                   ],
-                ),
-                decoration: BoxDecoration(
-                  color: AppColor.main,
-                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ],
