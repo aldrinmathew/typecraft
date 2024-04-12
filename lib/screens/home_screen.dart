@@ -13,13 +13,13 @@ import '../widgets/key_display.dart';
 import '../widgets/text_display.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   late FocusNode focusNode;
   Map<ShortcutActivator, Intent> shortcuts = {};
   Map<Type, Action<Intent>> actions = {};
@@ -114,25 +114,25 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       /// Special callback for backspace
-      actions[IntentKeyBackspace] = CallbackAction(onInvoke: (_) {
-        /// Press Animation
-        allKeys[13].firstCallback();
+      // actions[IntentKeyBackspace] = CallbackAction(onInvoke: (_) {
+      //   /// Press Animation
+      //   allKeys[13].firstCallback();
 
-        /// Backspace functionality
-        if (textData.inputText.isNotEmpty) {
-          textData.inputText =
-              textData.inputText.substring(0, textData.inputText.length - 1);
-          setState(() {});
-        }
+      //   /// Backspace functionality
+      //   if (textData.inputText.isNotEmpty) {
+      //     textData.inputText =
+      //         textData.inputText.substring(0, textData.inputText.length - 1);
+      //     setState(() {});
+      //   }
 
-        /// Release Animation after a delay
-        Future.delayed(
-          const Duration(milliseconds: 50),
-          allKeys[13].secondCallback,
-        );
+      //   /// Release Animation after a delay
+      //   Future.delayed(
+      //     const Duration(milliseconds: 50),
+      //     allKeys[13].secondCallback,
+      //   );
 
-        return null;
-      });
+      //   return null;
+      // });
 
       /// Logic for input updation, control characters and more...
       focusNode = FocusNode(
@@ -157,6 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (isSameKey(keyEvent, 'Caps Lock')) {
               allKeys[27].secondCallback();
               isCapsLockPressed = false;
+            } else if (isSameKey(keyEvent, 'Backspace')) {
+              allKeys[13].secondCallback();
             }
           } else if ((keyEvent is KeyDownEvent) ||
               (keyEvent is KeyRepeatEvent)) {
@@ -255,6 +257,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   allKeys[13].mistakeCount++;
                 }
+                setState(() {
+                  textData.inputText = textData.inputText
+                      .substring(0, textData.inputText.length - 1);
+                });
+                allKeys[13].firstCallback();
               }
             }
           }
