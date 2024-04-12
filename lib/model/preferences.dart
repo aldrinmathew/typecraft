@@ -43,7 +43,7 @@ class Preferences {
         }
       default:
         {
-          _charCount = charValue!;
+          _charCount = charValue;
         }
     }
 
@@ -57,7 +57,7 @@ class Preferences {
         }
       default:
         {
-          _wordCount = wordValue!;
+          _wordCount = wordValue;
         }
     }
 
@@ -71,7 +71,7 @@ class Preferences {
         }
       default:
         {
-          _timeTaken = timeValue!;
+          _timeTaken = timeValue;
         }
     }
   }
