@@ -5,8 +5,8 @@ import 'package:typecraft/app/app_color.dart';
 import '../app/app_style.dart';
 import '../model/key.dart';
 
-class KeyDisplay extends StatefulWidget {
-  const KeyDisplay({
+class KeyboardKeyWidget extends StatefulWidget {
+  const KeyboardKeyWidget({
     super.key,
     required this.keyData,
   });
@@ -14,10 +14,10 @@ class KeyDisplay extends StatefulWidget {
   final KeyModel keyData;
 
   @override
-  KeyDisplayState createState() => KeyDisplayState();
+  KeyboardKeyWidgetState createState() => KeyboardKeyWidgetState();
 }
 
-class KeyDisplayState extends State<KeyDisplay> {
+class KeyboardKeyWidgetState extends State<KeyboardKeyWidget> {
   late final Hookful<double> height;
   late final Hookful<int> duration;
   late final FocusNode focusNode;

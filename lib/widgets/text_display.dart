@@ -7,17 +7,17 @@ import '../model/text.dart';
 
 class TextDisplay extends StatefulWidget {
   const TextDisplay({
-    Key? key,
+    super.key,
     required this.textData,
-  }) : super(key: key);
+  });
 
   final TextModel textData;
 
   @override
-  _TextDisplayState createState() => _TextDisplayState();
+  TextDisplayState createState() => TextDisplayState();
 }
 
-class _TextDisplayState extends State<TextDisplay> {
+class TextDisplayState extends State<TextDisplay> {
   @override
   void initState() {
     super.initState();
@@ -62,25 +62,24 @@ class _TextDisplayState extends State<TextDisplay> {
 
 class SingleCharacter extends StatefulWidget {
   const SingleCharacter({
-    Key? key,
+    super.key,
     required this.lineIndex,
     required this.characterIndex,
     required this.textData,
-  }) : super(key: key);
+  });
 
   final int lineIndex;
   final int characterIndex;
   final TextModel textData;
 
   @override
-  _SingleCharacterState createState() => _SingleCharacterState();
+  SingleCharacterState createState() => SingleCharacterState();
 }
 
-class _SingleCharacterState extends State<SingleCharacter> {
+class SingleCharacterState extends State<SingleCharacter> {
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: AppColor.chooser(500, 300)),
+    return Container(
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
           color: ((widget.textData.previousLinesCharacters(widget.lineIndex) +
@@ -108,7 +107,7 @@ class _SingleCharacterState extends State<SingleCharacter> {
                       [widget.characterIndex] ==
                   '\n')))
           ? SizedBox(
-              height: 33,
+              height: 36,
               width: 25,
               child: FittedBox(
                 child: Opacity(

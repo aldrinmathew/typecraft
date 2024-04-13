@@ -11,7 +11,7 @@ import '../model/intent.dart';
 import '../model/key.dart';
 import '../model/key_character_map.dart';
 import '../model/text.dart';
-import '../widgets/key_display.dart';
+import '../widgets/keyboard_key.dart';
 import '../widgets/text_display.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -228,7 +228,19 @@ class HomeScreenState extends State<HomeScreen> {
                 }
               }
               setState(() {
-                textData.inputText += inputCharacter;
+                if (isCapsLockPressed &&
+                    !isShiftLeftPressed &&
+                    !isShiftRightPressed) {
+                  textData.inputText += inputCharacter.toUpperCase();
+                } else if (!isCapsLockPressed &&
+                    (isShiftLeftPressed || isShiftRightPressed)) {
+                  textData.inputText += inputCharacter.toUpperCase();
+                } else if (isCapsLockPressed &&
+                    (isShiftLeftPressed || isShiftRightPressed)) {
+                  textData.inputText += inputCharacter.toLowerCase();
+                } else {
+                  textData.inputText += inputCharacter;
+                }
                 textData.characterCount++;
               });
             } else {
@@ -362,7 +374,7 @@ class HomeScreenState extends State<HomeScreen> {
                             vertical: 12, horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.green,
+                          color: const Color(0xff7272ff),
                         ),
                         child: AnimatedFlipCounter(
                           duration: const Duration(milliseconds: 300),
@@ -674,7 +686,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     Row(
                                       children: [
                                         for (int i = 0; i < 14; i++)
-                                          KeyDisplay(keyData: allKeys[i])
+                                          KeyboardKeyWidget(keyData: allKeys[i])
                                       ],
                                     ),
                                     padding,
@@ -686,7 +698,7 @@ class HomeScreenState extends State<HomeScreen> {
                                             Row(
                                               children: [
                                                 for (int i = 14; i < 27; i++)
-                                                  KeyDisplay(
+                                                  KeyboardKeyWidget(
                                                       keyData: allKeys[i])
                                               ],
                                             ),
@@ -694,20 +706,20 @@ class HomeScreenState extends State<HomeScreen> {
                                             Row(
                                               children: [
                                                 for (int i = 27; i < 40; i++)
-                                                  KeyDisplay(
+                                                  KeyboardKeyWidget(
                                                       keyData: allKeys[i])
                                               ],
                                             ),
                                           ],
                                         ),
-                                        KeyDisplay(keyData: allKeys[40]),
+                                        KeyboardKeyWidget(keyData: allKeys[40]),
                                       ],
                                     ),
                                     padding,
                                     Row(
                                       children: [
                                         for (int i = 41; i < 53; i++)
-                                          KeyDisplay(keyData: allKeys[i])
+                                          KeyboardKeyWidget(keyData: allKeys[i])
                                       ],
                                     ),
                                     padding,
@@ -716,7 +728,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           MainAxisAlignment.start,
                                       children: [
                                         for (int i = 53; i < 58; i++)
-                                          KeyDisplay(keyData: allKeys[i])
+                                          KeyboardKeyWidget(keyData: allKeys[i])
                                       ],
                                     ),
                                   ],

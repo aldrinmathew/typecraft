@@ -9,7 +9,7 @@ void main() async {
 }
 
 class TypeCraftApp extends StatelessWidget {
-  const TypeCraftApp({Key? key}) : super(key: key);
+  const TypeCraftApp({super.key});
 
   @override
   Widget build(BuildContext context) {
